@@ -11,6 +11,10 @@ else:
     except:
         print("db.json can't be created\nCODE 1 ERROR")
     print("db.json created\nCODE 0 OK")
+class UserException(Exception):
+    def __init__(self, message, errors) -> None:
+        super().__init__(message)
+        self.errors = errors
 
 class DatabaseInteraction:
     def __init__(self, db_file='db.json'):
@@ -31,7 +35,7 @@ class DatabaseInteraction:
             with open(self.db_file, "w") as db:
                 json.dump(db_data, db, indent=4)
         else:
-            print("User already exists")
+            raise UserException("DB Error;User already exist")
     def set_bonus_penalty(self, user_id, penalty_time):
         db_data = {}
         if os.path.isfile(self.db_file):
@@ -42,7 +46,7 @@ class DatabaseInteraction:
             with open(self.db_file, "w") as db:
                 json.dump(db_data, db, indent=4)
         else:
-            print("User doesn't exist")
+            raise UserException("DB Error;User doesn't exist")
     def get_bonus_penalty(self, user_id):
         db_data = {}
         if os.path.isfile(self.db_file):
@@ -51,7 +55,8 @@ class DatabaseInteraction:
         if user_id in db_data:
             return db_data[user_id]["daily_bonus_time_penalty"]
         else:
-            print("User doesn't exist")
+            raise UserException("DB Error;User doesn't exist")
+            raise UserDoesntExist
     def set_bonus_status(self, user_id, bonus_status):
         db_data = {}
         if os.path.isfile(self.db_file):
@@ -62,7 +67,7 @@ class DatabaseInteraction:
             with open(self.db_file, "w") as db:
                 json.dump(db_data, db, indent=4)
         else:
-            print("User doesn't exist")
+            raise UserException("DB Error;User doesn't exist")
     def remove_user(self, user_id):
         db_data = {}
         if os.path.isfile(self.db_file):
@@ -73,7 +78,7 @@ class DatabaseInteraction:
             with open(self.db_file, "w") as db:
                 json.dump(db_data, db, indent=4)
         else:
-            print("User doesn't exist")
+            raise UserException("DB Error;User doesn't exist")
     
     def get_user(self, user_id):
         db_data = {}
@@ -84,7 +89,7 @@ class DatabaseInteraction:
         if user_id in db_data:
             return db_data[user_id]
         else:
-            print("User doesn't exist")
+            raise UserException("DB Error;User doesn't exist")
     
     def get_user_points(self, user_id):
         db_data = {}
@@ -94,7 +99,7 @@ class DatabaseInteraction:
         if user_id in db_data:
             return db_data[user_id]["points"]
         else:
-            print("User doesn't exist")
+            raise UserException("DB Error;User doesn't exist")
     
     def get_user_type(self, user_id):
         db_data = {}
@@ -104,7 +109,7 @@ class DatabaseInteraction:
         if user_id in db_data:
             return db_data[user_id]["user_type"]
         else:
-            print("User doesn't exist")
+            raise UserException("DB Error;User doesn't exist")
     
     def set_user_points(self, user_id, points):
         with open(self.db_file, "r") as db:
@@ -114,7 +119,7 @@ class DatabaseInteraction:
             with open(self.db_file, "w") as db:
                 json.dump(db_data, db, indent=4)
         else:
-            print("User doesn't exist")
+            raise UserException("DB Error;User doesn't exist")
     
     def set_user_type(self, user_id, user_type):
         db_data = {}
@@ -126,7 +131,7 @@ class DatabaseInteraction:
             with open(self.db_file, "w") as db:
                 json.dump(db_data, db, indent=4)
         else:
-            print("User doesn't exist")
+            raise UserException("DB Error;User doesn't exist")
     
     def add_points(self, user_id, points):
         db_data = {}
@@ -138,7 +143,7 @@ class DatabaseInteraction:
             with open(self.db_file, "w") as db:
                 json.dump(db_data, db, indent=4)
         else:
-            print("User doesn't exist")
+            raise UserException("DB Error;User doesn't exist")
     
     def remove_points(self, user_id, points):
         db_data = {}
@@ -153,7 +158,7 @@ class DatabaseInteraction:
             with open(self.db_file, "w") as db:
                 json.dump(db_data, db, indent=4)
         else:
-            print("User doesn't exist")
+            raise UserException("DB Error;User doesn't exist")
     
     def get_user_profile(self, user_id):
         db_data = {}
@@ -163,4 +168,4 @@ class DatabaseInteraction:
         if user_id in db_data:
             return db_data[user_id]
         else:
-            print("User doesn't exist")
+            raise UserException("DB Error;User doesn't exist")
